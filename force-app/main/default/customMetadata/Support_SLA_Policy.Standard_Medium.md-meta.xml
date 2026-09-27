@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Standard - Medium</label>
+    <protected>false</protected>
+    <values>
+        <field>Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>At_Risk_Threshold__c</field>
+        <value xsi:type="xsd:double">20.0</value>
+    </values>
+    <values>
+        <field>First_Response_Minutes__c</field>
+        <value xsi:type="xsd:double">480.0</value>
+    </values>
+    <values>
+        <field>Priority__c</field>
+        <value xsi:type="xsd:string">Medium</value>
+    </values>
+    <values>
+        <field>Resolution_Minutes__c</field>
+        <value xsi:type="xsd:double">2880.0</value>
+    </values>
+    <values>
+        <field>Support_Plan__c</field>
+        <value xsi:type="xsd:string">Standard</value>
+    </values>
+</CustomMetadata>
