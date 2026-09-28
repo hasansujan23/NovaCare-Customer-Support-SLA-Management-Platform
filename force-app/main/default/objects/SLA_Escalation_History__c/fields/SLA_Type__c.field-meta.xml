@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SLA_Type__c</fullName>
+    <label>SLA Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>First Response</fullName>
+                <default>false</default>
+                <label>First Response</label>
+            </value>
+            <value>
+                <fullName>Resolution</fullName>
+                <default>false</default>
+                <label>Resolution</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
