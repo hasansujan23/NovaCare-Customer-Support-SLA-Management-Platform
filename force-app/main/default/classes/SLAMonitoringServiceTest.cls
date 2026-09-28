@@ -96,6 +96,33 @@ private class SLAMonitoringServiceTest {
     }
 
     @IsTest
+    static void lateFirstResponseWithResolutionAtRiskKeepsLevelTwo() {
+        Datetime evaluationTime = System.now();
+        Case supportCase = createMonitoredCase();
+        setState(supportCase, evaluationTime.addMinutes(-10), evaluationTime.addMinutes(20),
+            evaluationTime.addMinutes(-5), STATUS_ON_TRACK, false, LEVEL_NONE, null);
+
+        processAt(supportCase.Id, evaluationTime);
+
+        assertEscalated(supportCase.Id, STATUS_AT_RISK, true, LEVEL_TWO, evaluationTime);
+        assertSingleHistory(supportCase.Id, STATUS_ON_TRACK, STATUS_BREACHED, LEVEL_TWO, 'First Response');
+    }
+
+    @IsTest
+    static void breachedCaseEnteringResolutionAtRiskIsNotDowngraded() {
+        Datetime evaluationTime = System.now();
+        Datetime originalEscalationTime = evaluationTime.addMinutes(-5);
+        Case supportCase = createMonitoredCase();
+        setState(supportCase, evaluationTime.addMinutes(-10), evaluationTime.addMinutes(20),
+            evaluationTime.addMinutes(-5), STATUS_ON_TRACK, true, LEVEL_TWO, originalEscalationTime);
+
+        processAt(supportCase.Id, evaluationTime);
+
+        assertEscalated(supportCase.Id, STATUS_AT_RISK, true, LEVEL_TWO, originalEscalationTime);
+        System.assertEquals(0, historyFor(supportCase.Id).size(), 'No Level 1 event for an already breached Case.');
+    }
+
+    @IsTest
     static void resolutionAtRiskCreatesResolutionHistory() {
         Datetime evaluationTime = System.now();
         Case supportCase = createMonitoredCase();

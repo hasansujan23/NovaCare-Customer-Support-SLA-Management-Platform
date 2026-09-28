@@ -127,7 +127,13 @@ public with sharing class SLAMonitoringService {
             outcome.hasChanges = true;
         }
 
-        if (newStatus == STATUS_AT_RISK && supportCase.SLA_Status__c != STATUS_AT_RISK) {
+        String currentLevel = outcome.caseUpdate.Escalation_Level__c != null
+            ? outcome.caseUpdate.Escalation_Level__c
+            : supportCase.Escalation_Level__c;
+
+        if (newStatus == STATUS_AT_RISK
+            && supportCase.SLA_Status__c != STATUS_AT_RISK
+            && levelRank(currentLevel) <= levelRank(LEVEL_ONE)) {
             outcome.caseUpdate.Escalation_Level__c = LEVEL_ONE;
             outcome.caseUpdate.Escalated_At__c = evaluationTime;
             outcome.hasChanges = true;
@@ -219,6 +225,17 @@ public with sharing class SLAMonitoringService {
             return STATUS_AT_RISK;
         }
         return STATUS_ON_TRACK;
+    }
+
+    // Escalation severity is monotonic: a transition may raise the level but never lower it.
+    private static Integer levelRank(String level) {
+        if (level == LEVEL_TWO) {
+            return 2;
+        }
+        if (level == LEVEL_ONE) {
+            return 1;
+        }
+        return 0;
     }
 
     private static Map<Id, Support_Subscription__c> loadSubscriptions(List<Case> scope) {
