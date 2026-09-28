@@ -1,0 +1,81 @@
+<template>
+    <template lwc:if={hasItems}>
+        <ol class="timeline" aria-label="SLA escalations, newest first">
+            <template for:each={items} for:item="item">
+                <li key={item.key} class="timeline__item">
+                    <div class="timeline__rail" aria-hidden="true">
+                        <span class={item.markerClass}>
+                            <lightning-icon icon-name={item.icon} size="xx-small"></lightning-icon>
+                        </span>
+                        <template lwc:if={item.showConnector}>
+                            <span class="timeline__connector"></span>
+                        </template>
+                    </div>
+                    <div class="timeline__content">
+                        <p class="timeline__time">
+                            <template lwc:if={item.hasEscalatedAt}>
+                                <lightning-formatted-date-time
+                                    value={item.escalatedAt}
+                                    month="short"
+                                    day="numeric"
+                                    hour="numeric"
+                                    minute="2-digit"
+                                ></lightning-formatted-date-time>
+                            </template>
+                            <template lwc:else>—</template>
+                        </p>
+                        <p class="timeline__title">
+                            <span class="slds-assistive-text">{item.iconAlt}:</span>
+                            {item.title}
+                        </p>
+                        <div class="timeline__meta">
+                            <template lwc:if={item.hasLevel}>
+                                <span class={item.levelClass}>{item.levelLabel}</span>
+                            </template>
+                            <template lwc:if={item.hasTransition}>
+                                <span class="timeline__transition">{item.transition}</span>
+                            </template>
+                        </div>
+                        <template lwc:if={item.hasReason}>
+                            <p class="timeline__reason">{item.reason}</p>
+                        </template>
+                        <template lwc:if={item.hasSlaDueAt}>
+                            <p class="timeline__due">
+                                SLA due
+                                <lightning-formatted-date-time
+                                    value={item.slaDueAt}
+                                    month="short"
+                                    day="numeric"
+                                    hour="numeric"
+                                    minute="2-digit"
+                                ></lightning-formatted-date-time>
+                            </p>
+                        </template>
+                    </div>
+                </li>
+            </template>
+        </ol>
+    </template>
+
+    <template lwc:elseif={isEmpty}>
+        <div class="timeline-empty">
+            <lightning-icon icon-name="utility:success" size="small" alternative-text="No escalations"></lightning-icon>
+            <div>
+                <p class="timeline-empty__title">No escalations</p>
+                <p class="timeline-empty__body">No SLA escalations have occurred for this case.</p>
+            </div>
+        </div>
+    </template>
+
+    <template lwc:else>
+        <div class="timeline-empty timeline-empty_restricted">
+            <lightning-icon icon-name="utility:lock" size="small" alternative-text="Restricted"></lightning-icon>
+            <div>
+                <p class="timeline-empty__title">Escalation history unavailable</p>
+                <p class="timeline-empty__body">
+                    Escalation history is not available with your current permissions.
+                </p>
+            </div>
+        </div>
+    </template>
+</template>

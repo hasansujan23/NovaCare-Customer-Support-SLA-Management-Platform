@@ -1,0 +1,171 @@
+<template>
+    <div class="summary">
+        <!-- Customer -->
+        <section class="panel" aria-labelledby="customer-heading">
+            <div class="panel__header">
+                <lightning-icon icon-name="standard:account" size="x-small" alternative-text="Customer"></lightning-icon>
+                <h4 class="nc-eyebrow" id="customer-heading">Customer</h4>
+            </div>
+            <dl class="panel__list">
+                <div class="panel__row">
+                    <dt class="panel__label">Account</dt>
+                    <dd class="panel__value panel__value_primary">
+                        <template lwc:if={canOpenAccount}>
+                            <button
+                                type="button"
+                                class="panel__link"
+                                data-record-id={customer.accountId}
+                                title="Open account"
+                                onclick={handleNavigate}
+                            >
+                                {accountName}
+                            </button>
+                        </template>
+                        <template lwc:else>{accountName}</template>
+                    </dd>
+                </div>
+                <div class="panel__row">
+                    <dt class="panel__label">Contact</dt>
+                    <dd class="panel__value">
+                        <template lwc:if={canOpenContact}>
+                            <button
+                                type="button"
+                                class="panel__link"
+                                data-record-id={customer.contactId}
+                                title="Open contact"
+                                onclick={handleNavigate}
+                            >
+                                {contactName}
+                            </button>
+                        </template>
+                        <template lwc:else>{contactName}</template>
+                    </dd>
+                </div>
+                <div class="panel__row">
+                    <dt class="panel__label">Asset</dt>
+                    <dd class="panel__value">
+                        <template lwc:if={canOpenAsset}>
+                            <button
+                                type="button"
+                                class="panel__link"
+                                data-record-id={customer.assetId}
+                                title="Open asset"
+                                onclick={handleNavigate}
+                            >
+                                {assetName}
+                            </button>
+                        </template>
+                        <template lwc:else>{assetName}</template>
+                    </dd>
+                </div>
+            </dl>
+        </section>
+
+        <!-- Support plan -->
+        <section class="panel" aria-labelledby="plan-heading">
+            <div class="panel__header">
+                <lightning-icon icon-name="standard:entitlement" size="x-small" alternative-text="Support plan"></lightning-icon>
+                <h4 class="nc-eyebrow" id="plan-heading">Support Plan</h4>
+            </div>
+            <template lwc:if={hasSubscription}>
+                <div class="panel__headline">
+                    <button
+                        type="button"
+                        class="panel__link panel__plan"
+                        data-record-id={subscription.subscriptionId}
+                        title={subscriptionName}
+                        onclick={handleNavigate}
+                    >
+                        {supportPlan}
+                    </button>
+                    <span class={subscriptionStatusClass}>{subscriptionStatus}</span>
+                </div>
+                <dl class="panel__list">
+                    <div class="panel__row">
+                        <dt class="panel__label">Coverage</dt>
+                        <dd class="panel__value">
+                            <template lwc:if={hasCoverage}>
+                                <span class={coverageClass}>{coverageLabel}</span>
+                            </template>
+                            <template lwc:else>—</template>
+                        </dd>
+                    </div>
+                    <div class="panel__row">
+                        <dt class="panel__label">Start</dt>
+                        <dd class="panel__value">
+                            <template lwc:if={hasStartDate}>
+                                <lightning-formatted-date-time
+                                    value={subscription.startDate}
+                                    year="numeric"
+                                    month="short"
+                                    day="numeric"
+                                    time-zone="UTC"
+                                ></lightning-formatted-date-time>
+                            </template>
+                            <template lwc:else>—</template>
+                        </dd>
+                    </div>
+                    <div class="panel__row">
+                        <dt class="panel__label">End</dt>
+                        <dd class="panel__value">
+                            <template lwc:if={hasEndDate}>
+                                <lightning-formatted-date-time
+                                    value={subscription.endDate}
+                                    year="numeric"
+                                    month="short"
+                                    day="numeric"
+                                    time-zone="UTC"
+                                ></lightning-formatted-date-time>
+                            </template>
+                            <template lwc:else>—</template>
+                        </dd>
+                    </div>
+                </dl>
+            </template>
+            <template lwc:else>
+                <p class="panel__empty">{subscriptionUnavailableMessage}</p>
+            </template>
+        </section>
+
+        <!-- Assignment -->
+        <section class="panel" aria-labelledby="assignment-heading">
+            <div class="panel__header">
+                <lightning-icon icon-name={ownerIcon} size="x-small" alternative-text="Assignment"></lightning-icon>
+                <h4 class="nc-eyebrow" id="assignment-heading">Assignment</h4>
+            </div>
+            <div class="panel__headline">
+                <template lwc:if={canOpenOwner}>
+                    <button
+                        type="button"
+                        class="panel__link panel__owner"
+                        data-record-id={assignment.ownerId}
+                        title="Open owner"
+                        onclick={handleNavigate}
+                    >
+                        {ownerName}
+                    </button>
+                </template>
+                <template lwc:else>
+                    <span class="panel__owner">{ownerName}</span>
+                </template>
+                <template lwc:if={hasOwnerType}>
+                    <span class="nc-pill nc-pill_neutral">{ownerTypeLabel}</span>
+                </template>
+            </div>
+            <dl class="panel__list">
+                <div class="panel__row">
+                    <dt class="panel__label">Priority</dt>
+                    <dd class="panel__value"><span class={priorityClass}>{priority}</span></dd>
+                </div>
+                <div class="panel__row">
+                    <dt class="panel__label">Issue Category</dt>
+                    <dd class="panel__value">{issueCategory}</dd>
+                </div>
+                <div class="panel__row">
+                    <dt class="panel__label">Escalation</dt>
+                    <dd class="panel__value"><span class={escalationClass}>{escalationLevel}</span></dd>
+                </div>
+            </dl>
+        </section>
+    </div>
+</template>

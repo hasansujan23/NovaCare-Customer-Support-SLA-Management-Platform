@@ -1,0 +1,123 @@
+@import 'c/novacareConsoleStyles';
+
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.timeline__item {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.timeline__rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.timeline__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid #c9c9c9;
+    border-radius: 50%;
+    background: #f3f3f3;
+    --slds-c-icon-color-foreground-default: #706e6b;
+}
+
+.timeline__marker_success {
+    border-color: #91db8b;
+    background: #ebf7e6;
+    --slds-c-icon-color-foreground-default: #2e844a;
+}
+.timeline__marker_warning {
+    border-color: #f9c77d;
+    background: #fef3e2;
+    --slds-c-icon-color-foreground-default: #dd7a01;
+}
+.timeline__marker_error {
+    border-color: #f5a3a3;
+    background: #fef1ee;
+    --slds-c-icon-color-foreground-default: #ba0517;
+}
+.timeline__marker_info {
+    border-color: #aacbff;
+    background: #eef4ff;
+    --slds-c-icon-color-foreground-default: #0176d3;
+}
+
+.timeline__connector {
+    flex: 1;
+    width: 2px;
+    min-height: 1rem;
+    margin: 0.25rem 0;
+    background: #e5e5e5;
+}
+
+.timeline__content {
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 1rem;
+}
+
+.timeline__time {
+    font-size: 0.75rem;
+    color: #5c5c5c;
+}
+
+.timeline__title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #181818;
+}
+
+.timeline__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.timeline__transition,
+.timeline__due {
+    font-size: 0.75rem;
+    color: #5c5c5c;
+}
+
+.timeline__reason {
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+}
+
+.timeline-empty {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px dashed #c9c9c9;
+    border-radius: 0.5rem;
+    background: #fafaf9;
+    --slds-c-icon-color-foreground-default: #2e844a;
+}
+
+.timeline-empty_restricted {
+    --slds-c-icon-color-foreground-default: #706e6b;
+}
+
+.timeline-empty__title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #181818;
+}
+
+.timeline-empty__body {
+    font-size: 0.8125rem;
+    color: #5c5c5c;
+}

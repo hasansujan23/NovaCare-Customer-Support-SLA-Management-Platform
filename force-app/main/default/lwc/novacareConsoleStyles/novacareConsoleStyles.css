@@ -1,0 +1,63 @@
+/* Shared status styling for the NovaCare Case Support Console (imported by console components). */
+.nc-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #5c5c5c;
+}
+
+.nc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid #c9c9c9;
+    border-radius: 1rem;
+    background: #f3f3f3;
+    color: #3e3e3c;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    white-space: nowrap;
+    --slds-c-icon-color-foreground-default: #706e6b;
+}
+
+.nc-pill_success,
+.nc-tone_success {
+    border-color: #91db8b;
+    background: #ebf7e6;
+    color: #194e31;
+    --slds-c-icon-color-foreground-default: #2e844a;
+}
+
+.nc-pill_warning,
+.nc-tone_warning {
+    border-color: #f9c77d;
+    background: #fef3e2;
+    color: #8c4b02;
+    --slds-c-icon-color-foreground-default: #dd7a01;
+}
+
+.nc-pill_error,
+.nc-tone_error {
+    border-color: #f5a3a3;
+    background: #fef1ee;
+    color: #8e030f;
+    --slds-c-icon-color-foreground-default: #ba0517;
+}
+
+.nc-pill_info,
+.nc-tone_info {
+    border-color: #aacbff;
+    background: #eef4ff;
+    color: #0b5cab;
+    --slds-c-icon-color-foreground-default: #0176d3;
+}
+
+.nc-pill_neutral,
+.nc-tone_neutral {
+    border-color: #dddbda;
+    background: #f3f3f3;
+    color: #3e3e3c;
+}

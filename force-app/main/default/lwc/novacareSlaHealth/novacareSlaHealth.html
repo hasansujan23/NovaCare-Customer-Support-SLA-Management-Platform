@@ -1,0 +1,146 @@
+<template>
+    <div class="sla-grid">
+        <!-- First response -->
+        <section class={firstResponse.cardClass} aria-labelledby="first-response-heading">
+            <div class="sla-card__header">
+                <h4 class="nc-eyebrow" id="first-response-heading">First Response</h4>
+                <template lwc:if={firstResponse.isMonitored}>
+                    <span class={officialStatusClass} title="Official SLA status maintained by SLA monitoring">
+                        SLA: {officialStatus.label}
+                    </span>
+                </template>
+            </div>
+
+            <p class={firstResponse.stateClass}>
+                <lightning-icon
+                    icon-name={firstResponse.icon}
+                    alternative-text={firstResponse.iconAlt}
+                    size="small"
+                ></lightning-icon>
+                <span>{firstResponse.stateLabel}</span>
+            </p>
+
+            <template lwc:if={firstResponse.detail}>
+                <p class={firstResponse.detailClass}>{firstResponse.detail}</p>
+            </template>
+
+            <dl class="sla-card__times">
+                <div class="sla-card__time">
+                    <dt>Due</dt>
+                    <dd>
+                        <template lwc:if={hasFirstResponseDue}>
+                            <lightning-formatted-date-time
+                                value={sla.firstResponseDue}
+                                month="short"
+                                day="numeric"
+                                hour="numeric"
+                                minute="2-digit"
+                            ></lightning-formatted-date-time>
+                        </template>
+                        <template lwc:else>—</template>
+                    </dd>
+                </div>
+                <div class="sla-card__time">
+                    <dt>Responded</dt>
+                    <dd>
+                        <template lwc:if={hasFirstRespondedAt}>
+                            <lightning-formatted-date-time
+                                value={sla.firstRespondedAt}
+                                month="short"
+                                day="numeric"
+                                hour="numeric"
+                                minute="2-digit"
+                            ></lightning-formatted-date-time>
+                        </template>
+                        <template lwc:else>—</template>
+                    </dd>
+                </div>
+            </dl>
+
+            <template lwc:if={firstResponse.outcome}>
+                <span class={firstResponse.outcomeClass}>{firstResponse.outcome}</span>
+            </template>
+
+            <template lwc:if={showMarkFirstResponse}>
+                <div class="sla-card__action">
+                    <lightning-button
+                        label="Mark First Response"
+                        icon-name="utility:reply"
+                        variant="brand-outline"
+                        disabled={isMarking}
+                        onclick={handleMarkFirstResponse}
+                    ></lightning-button>
+                </div>
+            </template>
+        </section>
+
+        <!-- Resolution -->
+        <section class={resolution.cardClass} aria-labelledby="resolution-heading">
+            <div class="sla-card__header">
+                <h4 class="nc-eyebrow" id="resolution-heading">Resolution</h4>
+                <template lwc:if={resolution.isMonitored}>
+                    <span class={officialStatusClass} title="Official SLA status maintained by SLA monitoring">
+                        SLA: {officialStatus.label}
+                    </span>
+                </template>
+            </div>
+
+            <p class={resolution.stateClass}>
+                <lightning-icon
+                    icon-name={resolution.icon}
+                    alternative-text={resolution.iconAlt}
+                    size="small"
+                ></lightning-icon>
+                <span>{resolution.stateLabel}</span>
+            </p>
+
+            <template lwc:if={resolution.detail}>
+                <p class={resolution.detailClass}>{resolution.detail}</p>
+            </template>
+
+            <dl class="sla-card__times">
+                <div class="sla-card__time">
+                    <dt>Due</dt>
+                    <dd>
+                        <template lwc:if={hasResolutionDue}>
+                            <lightning-formatted-date-time
+                                value={sla.resolutionDue}
+                                month="short"
+                                day="numeric"
+                                hour="numeric"
+                                minute="2-digit"
+                            ></lightning-formatted-date-time>
+                        </template>
+                        <template lwc:else>—</template>
+                    </dd>
+                </div>
+                <template lwc:if={hasClosedDate}>
+                    <div class="sla-card__time">
+                        <dt>Closed</dt>
+                        <dd>
+                            <lightning-formatted-date-time
+                                value={caseInfo.closedDate}
+                                month="short"
+                                day="numeric"
+                                hour="numeric"
+                                minute="2-digit"
+                            ></lightning-formatted-date-time>
+                        </dd>
+                    </div>
+                </template>
+            </dl>
+
+            <template lwc:if={resolution.outcome}>
+                <span class={resolution.outcomeClass}>{resolution.outcome}</span>
+            </template>
+        </section>
+    </div>
+
+    <p class="sla-footnote">
+        <lightning-icon icon-name="utility:info" size="xx-small" alternative-text="Information"></lightning-icon>
+        <span>
+            Countdowns update every minute in your browser. The official SLA status updates when SLA monitoring
+            runs.
+        </span>
+    </p>
+</template>

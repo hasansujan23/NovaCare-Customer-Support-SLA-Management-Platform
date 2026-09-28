@@ -1,0 +1,117 @@
+<template>
+    <article class="console slds-card">
+        <div class="console__bar">
+            <div class="console__brand">
+                <lightning-icon icon-name="standard:case" size="small" alternative-text="Case"></lightning-icon>
+                <span class="console__brand-title">NovaCare Case Support Console</span>
+            </div>
+            <lightning-button
+                label="Refresh"
+                icon-name="utility:refresh"
+                title="Reload the latest case and SLA data"
+                disabled={isRefreshing}
+                onclick={handleRefresh}
+            ></lightning-button>
+        </div>
+
+        <template lwc:if={isLoading}>
+            <div class="console__loading">
+                <lightning-spinner alternative-text="Loading Case Support Console" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:elseif={hasData}>
+            <div class="console__body">
+                <template lwc:if={showRefreshSpinner}>
+                    <lightning-spinner alternative-text="Updating Case Support Console" size="small"></lightning-spinner>
+                </template>
+
+                <header class="console__header">
+                    <div class="console__identity">
+                        <p class="console__case-line">
+                            <span class="console__case-number">{caseNumberLabel}</span>
+                            <span class="nc-pill nc-pill_neutral">{caseStatus}</span>
+                        </p>
+                        <h2 class="console__subject">{subject}</h2>
+                        <p class="console__meta">
+                            <span class={priorityClass}>
+                                <lightning-icon icon-name="utility:priority" size="xx-small" alternative-text="Priority"></lightning-icon>
+                                {priorityLabel}
+                            </span>
+                            <span class="console__meta-separator" aria-hidden="true">•</span>
+                            <span>{issueCategory}</span>
+                        </p>
+                    </div>
+                    <div class="console__status">
+                        <span class={slaBadgeClass} role="status" aria-label={slaBadgeLabel}>
+                            <lightning-icon
+                                icon-name={slaStatus.icon}
+                                size="small"
+                                alternative-text={slaStatus.iconAlt}
+                            ></lightning-icon>
+                            <span class="status-badge__text">{slaStatus.label}</span>
+                        </span>
+                        <span class="console__status-caption">Official SLA status</span>
+                        <template lwc:if={showBreachFlag}>
+                            <span class="nc-pill nc-pill_error">
+                                <lightning-icon icon-name="utility:error" size="xx-small" alternative-text="Breach"></lightning-icon>
+                                SLA breach recorded
+                            </span>
+                        </template>
+                    </div>
+                </header>
+
+                <section class="console__section" aria-labelledby="overview-heading">
+                    <h3 class="nc-eyebrow console__section-title" id="overview-heading">Case Overview</h3>
+                    <c-novacare-customer-summary
+                        customer={consoleData.customer}
+                        subscription={consoleData.subscription}
+                        subscription-accessible={consoleData.subscriptionAccessible}
+                        assignment={consoleData.assignment}
+                        case-info={caseInfo}
+                        sla={sla}
+                    ></c-novacare-customer-summary>
+                </section>
+
+                <section class="console__section" aria-labelledby="sla-heading">
+                    <h3 class="nc-eyebrow console__section-title" id="sla-heading">SLA Health</h3>
+                    <c-novacare-sla-health
+                        sla={sla}
+                        case-info={caseInfo}
+                        can-mark-first-response={consoleData.canMarkFirstResponse}
+                        is-marking={isMarking}
+                        onmarkfirstresponse={handleMarkFirstResponse}
+                    ></c-novacare-sla-health>
+                </section>
+
+                <section class="console__section" aria-labelledby="timeline-heading">
+                    <h3 class="nc-eyebrow console__section-title" id="timeline-heading">Escalation Timeline</h3>
+                    <c-novacare-escalation-timeline
+                        history={consoleData.history}
+                        accessible={consoleData.historyAccessible}
+                    ></c-novacare-escalation-timeline>
+                </section>
+            </div>
+        </template>
+
+        <template lwc:else>
+            <div class="console__error" role="alert">
+                <lightning-icon icon-name="utility:error" size="small" alternative-text="Error"></lightning-icon>
+                <div>
+                    <p class="console__error-title">{loadErrorTitle}</p>
+                    <p class="console__error-body">
+                        The case may not exist, or you may not have access to it. Try again, or contact your
+                        Salesforce administrator if the problem continues.
+                    </p>
+                    <lightning-button
+                        class="console__error-action"
+                        label="Try Again"
+                        icon-name="utility:refresh"
+                        disabled={isRefreshing}
+                        onclick={handleRefresh}
+                    ></lightning-button>
+                </div>
+            </div>
+        </template>
+    </article>
+</template>
